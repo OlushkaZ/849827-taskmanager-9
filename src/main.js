@@ -186,7 +186,19 @@ const getCardForm = () => {
     </article>
   `;
 };
+const getBoardSection = () => {
+  return `<section class="board container">
+    <div class="board__tasks"></div>
+  </section>`;
+};
 
+const getSortingList = () => {
+  return `<div class="board__filter-list">
+    <a href="#" class="board__filter">SORT BY DEFAULT</a>
+    <a href="#" class="board__filter">SORT BY DATE up</a>
+    <a href="#" class="board__filter">SORT BY DATE down</a>
+  </div>`;
+};
 const getCardEditForm = () => {
   return `
   <article class="card card--edit card--yellow card--repeat">
@@ -458,23 +470,27 @@ const getCardEditForm = () => {
   </article>
   `;
 };
-const getButton = () => {
+const getLoadMoreButton = () => {
   return `
   <button class="load-more" type="button">load more</button>
   `;
 };
 
-const renderComponent = (container, layout) => {
-  container.insertAdjacentHTML(`beforeend`, layout);
+const renderComponent = (container, layout, target) => {
+  container.insertAdjacentHTML(target, layout);
 };
 
-const main = document.querySelector(`.main`);
-const menuControl = main.querySelector(`.main__control`);
-renderComponent(menuControl, getMenuSection());
-renderComponent(main, getSearchSection());
-renderComponent(main, getFilterSection());
-renderComponent(main, getCardEditForm());
-renderComponent(main, getCardForm());
-renderComponent(main, getCardForm());
-renderComponent(main, getCardForm());
-renderComponent(main, getButton());
+const siteMainElement = document.querySelector(`.main`);
+const menuControl = siteMainElement.querySelector(`.main__control`);
+renderComponent(menuControl, getMenuSection(), `beforeend`);
+renderComponent(siteMainElement, getSearchSection(), `beforeend`);
+renderComponent(siteMainElement, getFilterSection(), `beforeend`);
+renderComponent(siteMainElement, getBoardSection(), `beforeend`);
+const boardElement = siteMainElement.querySelector(`.board`);
+const taskListElement = siteMainElement.querySelector(`.board__tasks`);
+
+renderComponent(boardElement, getSortingList(), `afterbegin`);
+renderComponent(taskListElement, getCardEditForm(), `beforeend`);
+new Array(3).fill(``).forEach(() => renderComponent(taskListElement, getCardForm(), `beforeend`));
+
+renderComponent(boardElement, getLoadMoreButton(), `beforeend`);
