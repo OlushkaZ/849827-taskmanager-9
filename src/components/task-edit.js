@@ -3,12 +3,12 @@ export const makeEditTask = ({description, dueDate, repeatingDays, tags, color, 
     <form class="card__form" method="get">
       <div class="card__inner">
         <div class="card__control">
-          <button type="button" class="card__btn card__btn--archive">
+          <button type="button" class="card__btn card__btn--archive ${isArchive ? `card__btn--disabled` : ``}">
             archive
           </button>
           <button
             type="button"
-            class="card__btn card__btn--favorites card__btn--disabled"
+            class="card__btn card__btn--favorites ${isFavorite ? `card__btn--disabled` : ``}"
           >
             favorites
           </button>
@@ -138,22 +138,8 @@ export const makeEditTask = ({description, dueDate, repeatingDays, tags, color, 
 
             <div class="card__hashtag">
               <div class="card__hashtag-list">
-                <span class="card__hashtag-inner">
-                  <input
-                    type="hidden"
-                    name="hashtag"
-                    value="repeat"
-                    class="card__hashtag-hidden-input"
-                  />
-                  <p class="card__hashtag-name">
-                    #repeat
-                  </p>
-                  <button type="button" class="card__hashtag-delete">
-                    delete
-                  </button>
-                </span>
 
-                <span class="card__hashtag-inner">
+              ${Array.from(tags).map((tag) => `<span class="card__hashtag-inner">
                   <input
                     type="hidden"
                     name="hashtag"
@@ -161,28 +147,12 @@ export const makeEditTask = ({description, dueDate, repeatingDays, tags, color, 
                     class="card__hashtag-hidden-input"
                   />
                   <p class="card__hashtag-name">
-                    #cinema
-                  </p>
-                  <button type="button" class="card__hashtag-delete">
-                    delete
-                  </button>
-                </span>
-
-                <span class="card__hashtag-inner">
-                  <input
-                    type="hidden"
-                    name="hashtag"
-                    value="repeat"
-                    class="card__hashtag-hidden-input"
-                  />
-                  <p class="card__hashtag-name">
-                    #entertaiment
-                  </p>
-                  <button type="button" class="card__hashtag-delete">
-                    delete
-                  </button>
-                </span>
-              </div>
+                    #${tag}
+                    </p>
+                    <button type="button" class="card__hashtag-delete">
+                      delete
+                    </button>
+                  </span>`).join(``)}
 
               <label>
                 <input

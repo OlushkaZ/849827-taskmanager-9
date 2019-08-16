@@ -1,3 +1,4 @@
+export const tasks = [];
 export const getTask = () => ({
   description: [
     `Изучить теорию`,
@@ -31,3 +32,12 @@ export const getTask = () => ({
   isFavorite: Boolean(Math.round(Math.random())),
   isArchive: Boolean(Math.round(Math.random())),
 });
+export const getFilter = () => ([
+  {title: `all`, count: 8},
+  {title: `overdue`, count: 3},
+  {title: `today`, count: 1},
+  {title: `favorites`, count: 2},
+  {title: `repeating`, count: 0},
+  {title: `tags`, count: 5},
+  {title: `archive`, count: 0}
+]);
