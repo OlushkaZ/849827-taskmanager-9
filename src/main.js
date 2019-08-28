@@ -61,9 +61,16 @@ const isToday = (date)=>{
   }
 };
 
+const isOverdue = (date)=>{
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).valueOf();
+  const taskDate = new Date(date).valueOf();
+  return taskDate < today;
+};
+
 const fillFiltersCount = ()=>{
   filterAllElement.textContent = tasks.length;
-  filterOverdueElement.textContent = 0;
+  filterOverdueElement.textContent = tasks.filter(({dueDate})=>isOverdue(dueDate)).length;
   filterTodayElement.textContent = tasks.filter(({dueDate})=>isToday(dueDate)).length;
   filterFavoritesElement.textContent = tasks.filter(({isFavorite})=>isFavorite).length;
   filterRepeatingElement.textContent = tasks.filter(({repeatingDays})=>Object.keys(repeatingDays).some((day) => repeatingDays[day])).length;
