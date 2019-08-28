@@ -9,7 +9,7 @@ export const makeFilter = (filterList) => `
     ${filterItem.count === 0 ? `disabled` : ``}
   />
   <label for="filter__${filterItem.title}" class="filter__label">
-    ${filterItem.title} <span class="filter__all-count">${filterItem.count}</span></label
+    ${filterItem.title} <span class="filter__${filterItem.title}-count">${filterItem.count}</span></label
   >`).join(``)}
 
   </section>
