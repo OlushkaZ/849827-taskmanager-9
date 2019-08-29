@@ -1,15 +1,36 @@
-export const makeTask = ({description, dueDate, repeatingDays, tags, color, isFavorite, isArchive}) => `
-   <article class="card card--${color} ${Object.keys(repeatingDays).some((day) => repeatingDays[day]) ? `card--repeat` : ``}">
+import {createElement} from '../utils.js';
+export class Task {
+  constructor({description, dueDate, repeatingDays, tags, color, isFavorite, isArchive}) {
+    this._description = description;
+    this._dueDate = new Date(dueDate);
+    this._repeatingDays = repeatingDays;
+    this._tags = tags;
+    this._color = color;
+    this._isFavorite = isFavorite;
+    this._isArchive = isArchive;
+    this._element = null;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  // const makeTask = ({description, dueDate, repeatingDays, tags, color, isFavorite, isArchive}) => `
+  getTemplate() {
+    return `<article class="card card--${this._color} ${Object.keys(this._repeatingDays).some((day) => this._repeatingDays[day]) ? `card--repeat` : ``}">
     <div class="card__form">
       <div class="card__inner">
         <div class="card__control">
           <button type="button" class="card__btn card__btn--edit">
             edit
           </button>
-          <button type="button" class="card__btn card__btn--archive ${isArchive ? `card__btn--disabled` : ``}">
+          <button type="button" class="card__btn card__btn--archive ${this._isArchive ? `card__btn--disabled` : ``}">
             archive
           </button>
-          <button type="button" class="card__btn card__btn--favorites ${isFavorite ? `card__btn--disabled` : ``}">
+          <button type="button" class="card__btn card__btn--favorites ${this._isFavorite ? `card__btn--disabled` : ``}">
             favorites
           </button>
         </div>
@@ -21,7 +42,7 @@ export const makeTask = ({description, dueDate, repeatingDays, tags, color, isFa
         </div>
 
         <div class="card__textarea-wrap">
-              <p class="card__text">${description}</p>
+              <p class="card__text">${this._description}</p>
         </div>
 
         <div class="card__settings">
@@ -29,23 +50,29 @@ export const makeTask = ({description, dueDate, repeatingDays, tags, color, isFa
             <div class="card__dates">
               <div class="card__date-deadline">
                 <p class="card__input-deadline-wrap">
-                  <span class="card__date">${new Date(dueDate).toDateString()}
+                  <span class="card__date">${this._dueDate.toDateString()}
                   </span>
+                  <span class="card__time">${this._dueDate.getHours()}
+                  :${this._dueDate.getMinutes()}</span>
                 </p>
               </div>
             </div>
 
             <div class="card__hashtag">
               <div class="card__hashtag-list">
-              ${Array.from(tags).map((tag) => `<span class="card__hashtag-inner">
-  <span class="card__hashtag-name">
-    #${tag}
-  </span>
-</span>`).join(``)}
+              ${(Array.from(this._tags).map((tag) => (`
+                <span class="card__hashtag-inner">
+                <input type = "hidden" name = "hashtag" value = "${tag}" class = "card__hashtag-hidden-input" />
+                <button type = "button" class="card__hashtag-name">#${tag}</button>
+                <button type = "button" class="card__hashtag-delete">delete</button>
+                </span>`.trim()
+  ))).join(``)}
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    </article>`.trim();
+    </article>`;
+  }
+}
