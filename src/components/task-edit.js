@@ -1,12 +1,14 @@
 import {createElement} from '../utils.js';
 export class TaskEdit {
-  constructor({description, dueDate, tags, color, repeatingDays}) {
+  constructor({description, dueDate, tags, color, repeatingDays, isFavorite, isArchive}) {
     this._description = description;
     this._dueDate = new Date(dueDate);
     this._tags = tags;
     this._color = color;
     this._element = null;
     this._repeatingDays = repeatingDays;
+    this._isFavorite = isFavorite;
+    this._isArchive = isArchive;
   }
 
   getElement() {
@@ -22,13 +24,10 @@ export class TaskEdit {
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
-                  <button type="button" class="card__btn card__btn--archive">
+                  <button type="button" class="card__btn card__btn--archive ${this._isArchive ? `card__btn--disabled` : ``}">
                     archive
                   </button>
-                  <button
-                    type="button"
-                    class="card__btn card__btn--favorites card__btn--disabled"
-                  >
+                  <button type="button" class="card__btn card__btn--favorites ${this._isFavorite ? `card__btn--disabled` : ``}">
                     favorites
                   </button>
                 </div>
