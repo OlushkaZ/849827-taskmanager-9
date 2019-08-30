@@ -1,23 +1,19 @@
 const TASK_COUNT = 8;
 const TASK_MORE_COUNT = 8;
 const tasks = [];
-import {getMenuSection} from './components/menu-section.js';
-import {getSearchSection} from './components/search-section.js';
+import {MenuSection} from './components/menu-section.js';
+import {SearchSection} from './components/search-section.js';
 import {Filter} from './components/filter-section.js';
 import {Task} from './components/task.js';
-import {getBoardSection} from './components/board-section.js';
-import {getSortingList} from './components/sorting-list.js';
+import {BoardSection} from './components/board-section.js';
+import {SortingList} from './components/sorting-list.js';
 import {TaskEdit} from './components/task-edit.js';
-import {getLoadMoreButton} from './components/load-more-button.js';
+import {LoadMoreButton} from './components/load-more-button.js';
 
 import {render} from './utils.js';
 import {Position} from './utils.js';
 import {getTask} from './data.js';
 import {getFilter} from './data.js';
-
-const renderComponent = (container, layout, target) => {
-  container.insertAdjacentHTML(target, layout);
-};
 
 const taskMocks = new Array(TASK_COUNT)
   .fill(``)
@@ -26,19 +22,39 @@ tasks.push(...taskMocks);
 
 const siteMainElement = document.querySelector(`.main`);
 const menuControl = siteMainElement.querySelector(`.main__control`);
-renderComponent(menuControl, getMenuSection(), `beforeend`);
-renderComponent(siteMainElement, getSearchSection(), `beforeend`);
+
+const renderMenuSection = () => {
+  const menuSection = new MenuSection();
+  render(menuControl, menuSection.getElement(), Position.BEFOREEND);
+};
+renderMenuSection();
+
+const renderSearchSection = () => {
+  const searchSection = new SearchSection();
+  render(siteMainElement, searchSection.getElement(), Position.BEFOREEND);
+};
+renderSearchSection();
+
 const renderFilter = () => {
   const filter = new Filter(getFilter(), tasks);
   render(siteMainElement, filter.getElement(), Position.BEFOREEND);
 };
 renderFilter();
-renderComponent(siteMainElement, getBoardSection(), `beforeend`);
+
+const renderBoardSection = () => {
+  const boardSection = new BoardSection();
+  render(siteMainElement, boardSection.getElement(), Position.BEFOREEND);
+};
+renderBoardSection();
+
 const boardElement = siteMainElement.querySelector(`.board`);
-renderComponent(boardElement, getSortingList(), `afterbegin`);
+const renderSortingList = () => {
+  const sortingList = new SortingList();
+  render(boardElement, sortingList.getElement(), Position.AFTERBEGIN);
+};
+renderSortingList();
 
 const tasksContainer = siteMainElement.querySelector(`.board__tasks`);
-
 const renderTask = (taskMock) => {
   const task = new Task(taskMock);
   const taskEdit = new TaskEdit(taskMock);
@@ -78,7 +94,12 @@ const renderTask = (taskMock) => {
 };
 
 taskMocks.forEach((taskMock) => renderTask(taskMock));
-renderComponent(boardElement, getLoadMoreButton(), `beforeend`);
+
+const renderLoadMoreButton = () => {
+  const loadMoreButton = new LoadMoreButton();
+  render(boardElement, loadMoreButton.getElement(), Position.BEFOREEND);
+};
+renderLoadMoreButton();
 
 const buttonLoadMore = boardElement.querySelector(`.load-more`);
 const buttonLoadMoreHandler = ()=>{

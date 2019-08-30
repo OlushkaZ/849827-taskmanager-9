@@ -18,6 +18,10 @@ export class Task {
     return this._element;
   }
 
+  removeElement() {
+    this._element = null;
+  }
+
   // const makeTask = ({description, dueDate, repeatingDays, tags, color, isFavorite, isArchive}) => `
   getTemplate() {
     return `<article class="card card--${this._color} ${Object.keys(this._repeatingDays).some((day) => this._repeatingDays[day]) ? `card--repeat` : ``}">
