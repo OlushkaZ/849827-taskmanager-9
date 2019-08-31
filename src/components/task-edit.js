@@ -23,6 +23,16 @@ export class TaskEdit {
     this._element = null;
   }
 
+  static getDate(dueDate) {
+    return dueDate.toDateString();
+  }
+  static getHours(dueDate) {
+    return dueDate.getHours();
+  }
+  static getMinutes(dueDate) {
+    return dueDate.getMinutes();
+  }
+
   getTemplate() {
     return `<article class="card card--edit card--${this._color} ${Object.values(this._repeatingDays).some((it) => it === true) ? `card--repeat` : `` }">
             <form class="card__form" method="get">
@@ -66,7 +76,7 @@ export class TaskEdit {
                             type="text"
                             placeholder=""
                             name="date"
-                            value="${this._dueDate.toDateString()} ${this._dueDate.getHours()}:${this._dueDate.getMinutes()}"
+                            value="${TaskEdit.getDate(this._dueDate)} ${TaskEdit.getHours(this._dueDate)}:${TaskEdit.getMinutes(this._dueDate)}"
                           />
                         </label>
                       </fieldset>

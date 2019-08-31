@@ -21,8 +21,16 @@ export class Task {
   removeElement() {
     this._element = null;
   }
+  static getDate(dueDate) {
+    return dueDate.toDateString();
+  }
+  static getHours(dueDate) {
+    return dueDate.getHours();
+  }
+  static getMinutes(dueDate) {
+    return dueDate.getMinutes();
+  }
 
-  // const makeTask = ({description, dueDate, repeatingDays, tags, color, isFavorite, isArchive}) => `
   getTemplate() {
     return `<article class="card card--${this._color} ${Object.keys(this._repeatingDays).some((day) => this._repeatingDays[day]) ? `card--repeat` : ``}">
     <div class="card__form">
@@ -54,10 +62,10 @@ export class Task {
             <div class="card__dates">
               <div class="card__date-deadline">
                 <p class="card__input-deadline-wrap">
-                  <span class="card__date">${this._dueDate.toDateString()}
+                  <span class="card__date">${Task.getDate(this._dueDate)}
                   </span>
-                  <span class="card__time">${this._dueDate.getHours()}
-                  :${this._dueDate.getMinutes()}</span>
+                  <span class="card__time">${Task.getHours(this._dueDate)}
+                  :${Task.getMinutes(this._dueDate)}</span>
                 </p>
               </div>
             </div>
