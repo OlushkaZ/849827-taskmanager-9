@@ -6,6 +6,7 @@ import {SearchSection} from './components/search-section.js';
 import {Filter} from './components/filter-section.js';
 import {Task} from './components/task.js';
 import {BoardSection} from './components/board-section.js';
+import {BoardEmptySection} from './components/board-empty-section.js';
 import {SortingList} from './components/sorting-list.js';
 import {TaskEdit} from './components/task-edit.js';
 import {LoadMoreButton} from './components/load-more-button.js';
@@ -42,8 +43,13 @@ const renderFilter = () => {
 renderFilter();
 
 const renderBoardSection = () => {
-  const boardSection = new BoardSection();
-  render(siteMainElement, boardSection.getElement(), Position.BEFOREEND);
+  if (tasks.some(({isArchive})=>!isArchive)) {
+    const boardSection = new BoardSection();
+    render(siteMainElement, boardSection.getElement(), Position.BEFOREEND);
+  } else {
+    const boardEpmtySection = new BoardEmptySection();
+    render(siteMainElement, boardEpmtySection.getElement(), Position.BEFOREEND);
+  }
 };
 renderBoardSection();
 
@@ -84,16 +90,18 @@ const renderTask = (taskMock) => {
     });
 
   taskEdit.getElement()
-    .querySelector(`.card__save`)
-    .addEventListener(`click`, () => {
-      tasksContainer.replaceChild(task.getElement(), taskEdit.getElement());
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
+  .querySelector(`.card__form`)
+  .addEventListener(`submit`, ()=>{
+    tasksContainer.replaceChild(task.getElement(), taskEdit.getElement());
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
 
   render(tasksContainer, task.getElement(), Position.BEFOREEND);
 };
 
-taskMocks.forEach((taskMock) => renderTask(taskMock));
+if (tasksContainer) {
+  taskMocks.forEach((taskMock) => renderTask(taskMock));
+}
 
 const renderLoadMoreButton = () => {
   const loadMoreButton = new LoadMoreButton();
