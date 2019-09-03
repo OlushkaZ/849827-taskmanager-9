@@ -1,20 +1,9 @@
-import {createElement} from '../utils.js';
-export class Filter {
+import {AbstractComponent} from './abstract-component.js';
+export class Filter extends AbstractComponent {
   constructor(filterList, tasks) {
+    super();
     this._filterList = filterList;
     this._tasks = tasks;
-    this._element = null;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   static isOverdue(date) {
