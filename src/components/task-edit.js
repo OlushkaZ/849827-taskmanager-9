@@ -1,26 +1,14 @@
-import {createElement} from '../utils.js';
-export class TaskEdit {
+import {AbstractComponent} from './abstract-component.js';
+export class TaskEdit extends AbstractComponent {
   constructor({description, dueDate, tags, color, repeatingDays, isFavorite, isArchive}) {
+    super();
     this._description = description;
     this._dueDate = new Date(dueDate);
     this._tags = tags;
     this._color = color;
-    this._element = null;
     this._repeatingDays = repeatingDays;
     this._isFavorite = isFavorite;
     this._isArchive = isArchive;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   static getDate(dueDate) {

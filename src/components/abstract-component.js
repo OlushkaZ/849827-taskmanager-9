@@ -1,7 +1,10 @@
 import {createElement} from '../utils.js';
-export class BoardEmptySection {
+export class AbstractComponent {
   constructor() {
     this._element = null;
+    if (new.target === AbstractComponent) {
+      throw new Error(`Can't instantiate AbstractComponent, only concrete one.`);
+    }
   }
 
   getElement() {
@@ -16,11 +19,6 @@ export class BoardEmptySection {
   }
 
   getTemplate() {
-    return `<section class="board container">
-      <p class="board__no-tasks">
-        Congratulations, all tasks were completed! To create a new click on
-        «add new task» button.
-      </p>
-    </section>`;
+    throw new Error(`Abstract method not implemented: getTemplate`);
   }
 }
