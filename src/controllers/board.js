@@ -23,6 +23,7 @@ export class BoardController {
       render(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
       this._tasks.forEach((taskMock) => this._renderTask(taskMock));
       this._sort.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
+
     } else {
       render(this._board.getElement(), this._boardNoTasks.getElement(), Position.BEFOREEND);
     }
